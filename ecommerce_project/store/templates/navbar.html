@@ -18,18 +18,31 @@
       <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" href="">Contact</a>
       </li>
       <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" href="">About</a></li>
-      {% if item_count > 0 %}
+      {% if request.user.is_authenticated and request.user.first_name %}
+      <li class="nav-item"><span class="nav-link text-light text-uppercase font-weight-bold px-3">Welcome,
+          {{request.user.first_name}} <i class="fas fa-user circle ml-2"></i></span>
       <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3"
-          href="{% url 'cart_detail' %}"><i class="fas fa-shopping-cart"></i>({{item_count}})
+          href="{% url 'signout' %}">Sign Out<i class="fas fa-user-plus ml-2"></i></a>
+        {% else %}
+
+      <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3"
+          href="{% url 'signup' %}">Sign Up<i class="fas fa-user-plus ml-2"></i></a>
+      <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3"
+          href="{%url 'signin' %}">Sign In<i class="fas fa-sign-in-alt ml-2"></i></a>
+        {% endif %}
+        {% if item_count > 0 %}
+      <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3"
+          href="{% url 'cart_detail' %}"><i class="fas fa-shopping-cart ml-2"></i><span
+            class="ml-2">({{item_count}})</span>
         </a>
         {% endif %}
       </li>
     </ul>
-    <form class="form-inline ml-3">
+    <form class="form-inline ml-3" action="{% url 'search' %}" , method="GET">
       <div class="input-group">
-        <input type="text" placeholder="Search">
+        <input type="text" name="name" placeholder="Search">
         <div>
-          <button type="button" name="button" class="btn-warning btn">
+          <button type="submit" name="button" class="btn-warning btn">
             <i class="fas fa-regular fa-magnifying-glass"></i></button>
         </div>
       </div>
